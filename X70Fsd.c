@@ -1,21 +1,9 @@
 /*++
 
-Copyright (c) 1999 - 2002  Microsoft Corporation
-
-Module Name:
-
-passThrough.c
-
-Abstract:
-
-This is the main module of the passThrough miniFilter driver.
-This filter hooks all IO operations for both pre and post operation
-callbacks.  The filter passes through the operations.
-
-Environment:
-
-Kernel mode
-
+本程序基于minifilter的文件过滤驱动框架实现了layerfsd的基本功能。
+遵循GPL v3.0协议，请您严格遵守协议!
+本人干了快5年windows驱动开发，这个程序作为我5年工作的结束，从此本人将不再写windows驱动，如果您有什么问题可以给我email：196245957@qq.com
+欢迎加qq群：26258114 进来跟我们扯淡，聊天，卖萌。
 --*/
 #include "X70FsdStruct.h"
 #include "X70FsdFileInfo.h"
