@@ -129,10 +129,13 @@ NTSTATUS CreateFileImitation(__inout PFLT_CALLBACK_DATA Data,
 
 	if(Network) 
 	{
-		SetFlag (ShareAccess ,FILE_SHARE_VALID_FLAGS); 
-		SetFlag (DesiredAccess ,FILE_READ_DATA  );
+		//SetFlag (ShareAccess ,FILE_SHARE_READ); 
+		//SetFlag (DesiredAccess ,FILE_READ_DATA  );
 
-		SetFlag (DesiredAccess , FILE_WRITE_DATA); //???
+		//SetFlag (DesiredAccess , FILE_WRITE_DATA); //???
+		ShareAccess = FILE_SHARE_READ;   //网络文件因为oplock，只能只读，要想解决去参考rdbss.sys
+		ClearFlag(DesiredAccess,FILE_WRITE_DATA);
+		ClearFlag(DesiredAccess,FILE_APPEND_DATA);
 
 	}
 #ifdef USE_CACHE_READWRITE
@@ -279,7 +282,6 @@ NTSTATUS CreateFileByNonExistFcb(__inout PFLT_CALLBACK_DATA Data,
 		}
 		
 		//这里可以通知应用层文件创建请求，应用层判断是否加密
-		//IrpContext->CreateInfo.FileType == _FILE_TYPE_ENCRYPTION;
 		
 		Status = CreatedFileHeaderInfo(IrpContext);
 
@@ -1337,7 +1339,7 @@ X70FsdCommonCreate(
 
 		if(volCtx->DeviceType == FILE_DEVICE_NETWORK_FILE_SYSTEM)
 		{
-			IrpContext->CreateInfo.Network = TRUE;
+			IrpContext->CreateInfo.Network = TRUE;	//only read！！！！！！
 		}
 
 		IrpContext->SectorSize = volCtx->SectorSize;
