@@ -1293,7 +1293,6 @@ X70FsdCommonCreate(
 
 			if(IsMyFakeFcb(FileObject))
 			{
-				DbgPrint("SL_OPEN_TARGET_DIRECTORY False !!!\n");
 				Status = STATUS_ACCESS_DENIED;
 				try_return(FltStatus = FLT_PREOP_COMPLETE);
 			}

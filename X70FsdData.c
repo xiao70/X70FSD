@@ -2176,7 +2176,7 @@ VOID X70FsdFspDispatch (
 	PFLT_IO_PARAMETER_BLOCK  Iopb;
 	ULONG LogFileFullCount = 0;
 
-	BOOLEAN Retry;//重试标志
+	BOOLEAN Retry;
 
 	IrpContext = (PIRP_CONTEXT)Context;
 
@@ -2186,10 +2186,9 @@ VOID X70FsdFspDispatch (
 
 		Iopb = Data->Iopb;
 	}
-	//DbgPrint("被投递的请求 %x\n",Iopb->MajorFunction);
-	
-	SetFlag( IrpContext->Flags, IRP_CONTEXT_FLAG_WAIT ); //同步的请求
-	SetFlag( IrpContext->Flags, IRP_CONTEXT_FLAG_IN_FSP ); //线程中请求
+
+	SetFlag( IrpContext->Flags, IRP_CONTEXT_FLAG_WAIT ); 
+	SetFlag( IrpContext->Flags, IRP_CONTEXT_FLAG_IN_FSP ); 
 
 	while(TRUE)
 	{
@@ -3192,13 +3191,12 @@ NTSTATUS CleanupSetFile(PCFLT_RELATED_OBJECTS FltObjects,PFCB Fcb,PCCB Ccb)
 		LARGE_INTEGER TempLI;
 		ULONG UnitSize = CRYPT_UNIT;
 
-		//DbgPrint("加密扩展文件 \n");
 
-		TempLI.QuadPart = fei.EndOfFile.QuadPart;//占用大小
+		TempLI.QuadPart = fei.EndOfFile.QuadPart;
 		TempLI.QuadPart += UnitSize;
 		TempLI.HighPart += (ULONG)( (LONGLONG)UnitSize >> 32 );
 
-		if ( TempLI.LowPart == 0 ) //不需要进位 
+		if ( TempLI.LowPart == 0 )
 		{
 			TempLI.HighPart -= 1;
 		}
@@ -3227,7 +3225,7 @@ NTSTATUS CleanupSetFile(PCFLT_RELATED_OBJECTS FltObjects,PFCB Fcb,PCCB Ccb)
 		}
 		if(!NT_SUCCESS(Status))
 		{
-			DbgPrint("句柄关闭时修改文件头失败 \n");
+			DbgPrint("ModifyFileHeader false\n");
 		}
 	}
 
@@ -3251,7 +3249,7 @@ NTSTATUS CleanupSetFile(PCFLT_RELATED_OBJECTS FltObjects,PFCB Fcb,PCCB Ccb)
 
 	if(!NT_SUCCESS(Status))
 	{
-		DbgPrint("句柄关闭时设置文件大小失败 \n");
+		DbgPrint("FltSetInformationFile false\n");
 	}
 	return Status;
 }
@@ -3417,7 +3415,6 @@ NTSTATUS TransformFileToDisEncrypt( PFLT_CALLBACK_DATA Data,PCFLT_RELATED_OBJECT
 
 		if(pFileBuffer == NULL)
 		{
-			DbgPrint("加密头读取失败 \n");
 			try_return(Status = STATUS_INSUFFICIENT_RESOURCES);
 		}
 
@@ -3722,7 +3719,6 @@ NTSTATUS TransformFileToEncrypted( PFLT_CALLBACK_DATA Data,PCFLT_RELATED_OBJECTS
 
 		if(!NT_SUCCESS(Status))
 		{
-			DbgPrint("写加密头失败 \n");
 			try_return( Status );
 		}
 
@@ -3731,7 +3727,7 @@ NTSTATUS TransformFileToEncrypted( PFLT_CALLBACK_DATA Data,PCFLT_RELATED_OBJECTS
 
 		if(pFileBuffer == NULL)
 		{
-			DbgPrint("加密头读取失败 \n");
+
 			try_return(Status = STATUS_INSUFFICIENT_RESOURCES);
 		}
 

@@ -2,7 +2,7 @@
 
 本程序基于minifilter的文件过滤驱动框架实现了layerfsd的基本功能。
 遵循GPL v3.0协议，请您严格遵守协议!
-本人干了快5年windows驱动开发，这个程序作为我5年工作的结束，从此本人将不再写windows驱动，如果您有什么问题可以给我email：196245957@qq.com
+本人程序员生涯中有快5年的windows驱动开发，这个程序作为我5年windows驱动开发工作的结束，从此本人将不再写windows驱动，如果您有什么问题可以给我email：196245957@qq.com
 欢迎加qq群：26258114 进来跟我们扯淡，聊天，卖萌。
 --*/
 #include "X70FsdStruct.h"
@@ -579,7 +579,7 @@ PtInstanceSetup (
 
 		if(volProp->SectorSize  > MAX_SECTOR_SIZE)
 		{
-			DbgPrint("不支持这么大的扇区的磁盘 %d \n",volProp->SectorSize );
+			DbgPrint("volProp->SectorSize false %d \n",volProp->SectorSize );
 			status = STATUS_UNSUCCESSFUL;
 			leave;
 		}
@@ -852,7 +852,7 @@ DriverEntry (
 			}
 		}
 	}
-	DbgPrint("status = %x ",status);
+
 	return status;
 }
 
@@ -946,18 +946,11 @@ PtPreOperationPassThrough (
 
 		if(FLT_IS_FASTIO_OPERATION(Data)) 
 		{
-			/*DbgPrint("收到我们自己的fcb请求MajorFunction %x \n",Data->Iopb->MajorFunction );
-			DbgPrint("收到我们自己的fcb请求MinorFunction  %x \n",Data->Iopb->MinorFunction  );
-			DbgPrint("FastIo Passthru \n");*/
 			FltStatus = FLT_PREOP_DISALLOW_FASTIO ;
 			return FltStatus;
 		}
 		if(FLT_IS_IRP_OPERATION(Data))
 		{
-			DbgPrint("收到我们自己的fcb请求MajorFunction %x \n",Data->Iopb->MajorFunction );
-			DbgPrint("收到我们自己的fcb请求MinorFunction  %x \n",Data->Iopb->MinorFunction  );
-			DbgPrint("Irp Passthru \n");
-
 			FltStatus = X70FsdPrePassThroughIrp(Data,FltObjects,CompletionContext);		
 			return FltStatus;
 		}
