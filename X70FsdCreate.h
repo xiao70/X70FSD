@@ -28,6 +28,14 @@ NTSTATUS CreateFileImitation(__inout PFLT_CALLBACK_DATA Data,
 							 __out PIO_STATUS_BLOCK  IoStatus,
 							 __in  BOOLEAN Network);
 
+NTSTATUS 
+CreateFileByNonExistFcb(__inout PFLT_CALLBACK_DATA Data,
+								 __in PCFLT_RELATED_OBJECTS FltObjects,
+								 __in PFCB Fcb,
+								 __in PIRP_CONTEXT IrpContext,
+								 __in PUCHAR	HashValue
+								 );
+
 NTSTATUS CreateFileByExistFcb(__inout PFLT_CALLBACK_DATA Data,
 							  __in PCFLT_RELATED_OBJECTS FltObjects,
 							  __in PFCB Fcb,
@@ -40,13 +48,7 @@ X70FsdCommonCreate(
 					__in PIRP_CONTEXT IrpContext);
 
 
-NTSTATUS 
-CreateFileByNonExistFcb(__inout PFLT_CALLBACK_DATA Data,
-								 __in PCFLT_RELATED_OBJECTS FltObjects,
-								 __in PFCB Fcb,
-								 __in PIRP_CONTEXT IrpContext,
-								 __in PUCHAR	HashValue
-								 );
+
 
 
 FLT_PREOP_CALLBACK_STATUS

@@ -202,7 +202,7 @@ NTSTATUS CreateFcbAndCcb(__inout PFLT_CALLBACK_DATA Data,
 
 BOOLEAN RemoveFcbList(PUCHAR HashValue,PFCB *Fcb);
 
-// Õ∑≈FCB
+
 BOOLEAN X70FsdFreeFcb(PFCB Fcb,PIRP_CONTEXT IrpContext);
 
 PERESOURCE

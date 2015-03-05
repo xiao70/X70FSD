@@ -1,0 +1,306 @@
+
+  FileSpy history
+  ===============
+
+ Version 4.1.0.470/1.2.6000.429/1.2.6000.104
+
+ - Fixed crash that occurs in GUI when a more exotic redirector is in play
+ - Fixed configuration of boot run
+ - Fixed default configuration
+
+ Version 4.1.0.466/1.2.6000.429/1.2.6000.104
+
+ - Fixed size issues with non-default DPI values
+
+ Version 4.1.0.463/1.2.6000.429/1.2.6000.104
+
+ - USN logger now deciphers SourceInfo.
+ - FSpy.sys and MSpy.sys will not load in safe mode
+ - Reworked dialog for path filters
+ - Request filter dialog now supports Shift key (adds a specified group of IOs
+   without clearing the currently selected ones)
+ - Improved management of the volumes, they now use NT names internally.
+ - Improved "Attach By Name" dialog - bigger character limit,
+   more devices in the list.
+
+ Version 4.1.0.444/1.2.6000.429/1.2.6000.104
+
+ - Added support for controlling priority
+
+ Version 4.1.0.434/1.2.6000.429/1.2.6000.104
+
+ - Fixed some bugs related to clearing USN journal
+ - Directory IDs are now cached, which produces less CREATE requests while logging USN journal
+ - More informatin logged from FILE_BASIC_INFORMATION, FILE_STANDARD_INFORMATION
+ - Added details for some more file information classes
+ - IRP_MJ_LOCK_CONTROL now logs FileOffset, key, ExclusiveLock and FailImmediately, if
+   those are logged by used filter driver
+ - Lock and unlock FastIOs now log FileOffset
+ - Filespy can now properly detect another instance running in another session
+
+ Version 4.1.0.434/1.2.6000.429/1.2.6000.104
+
+ - FileSpy tries to detect existing samples from WDK which might collide with FileSpy's drivers.
+
+ Version 4.1.0.432/1.2.6000.429/1.2.6000.104
+
+ - Fixed issue with dynamic disks
+
+ Version 4.1.0.430/1.2.6000.429/1.2.6000.104
+
+ - Dialog for selecting starting USN is now much more precise.
+ - Minispy filter is now usable under limited account
+ - Several minor cosmetic changes and improvements
+ - Fixed issues with Filetrace under Windows Seven Beta
+ - Thorough test
+
+ Version 4.1.0.400/1.2.6000.402/1.2.6000.102
+
+ - Added more status codes from WDK
+ - NtStatus2Text has reworked. Now it uses a binary tree which
+   speeds up searching of the NTSTATUS text.
+ - InsertLogEntryGUI has been optimized to use specific sprintf functions,
+   which are much faster
+ - Added support for detailed info about IRP_MJ_QUERY_VOLUME_INFORMATION
+   and IRP_MJ_SET_VOLUME_INFORMATION
+ - Text formatting routines have been optimized
+ - Fixed issues with showing content of SECTION_OBJECT_POINTERS and FSRTL_ADVANCED_FCB_HEADER
+ - Added possibility to minimize to systray
+ - Added possibility to generate random window title, for cases when a program looks
+   for FileSpy application by window class/name.
+ - FileSpy's main window class name is now always random
+ - Added possibility to auto-log FileSpy's output to a text file
+ - Added possibility to redirect filespy's log to another device (FileSpy.exe >FileSpy.log)
+ - Fixed bug when FileSpy hangs when starting minimized.
+ - MSpy driver is now loaded at altitude assigned by Microsoft
+ - Fixed problems when MSpy is used and FileSpy is re-launched several times
+ - Mspy filter now logs IRP pointer as well
+
+ Version 4.0.0.350/1.2.6000.392/1.2.6000.79
+
+ - Added USN Journal as logging method
+ - Improved sorting by call time and by completion time
+ - Volume menu is now updated properly when FileTrace is selected as logging method
+ - Fixed bug in Minifilters dialog causing randomly improper info in left pane
+ - Shadow copy volumes are no longer shown in volume menu
+ - Going through list of drives has been slightly optimized
+ - When a fading window is being shown, it always becomes non-transparent
+ - Process list no longer keeps resetting its top index to 0 on refresh
+ - Added Tools dialog for enabling/disabling test-signed drivers
+ - Default font for log has been changed to Tahoma on all operating systems
+ - Choosing font for listview has been improved and the setting is remembered on exit
+ - Added new flags from the WDK 6001
+ - Added few IOCTL codes
+ - Running FileSpy under limited user acount has been improved
+ - Fixed crash in FSpy driver that occurs when NamedPipe is attached under Vista
+ - Several minor bug fixes and improvements
+
+ Version 3.0.3.302/1.2.6000.386/1.2.6000.77
+
+ - FileSpy uses Toolhelp32 instead of NtQuerySystemInformation
+ - Support for manual system crash on USB keyboards
+ - "Show minifilters" feature shows an error code in volume list on error
+ - Added new file information classes for Vista
+ - WDK headers taken from WDK 6000
+ - Added text for FileFsVolumeFlagsInformation
+
+ Version 3.0.3.295/1.2.6000.386/1.2.6000.77
+
+ - FSpy and MSpy driver options has been slightly reworked
+ - Fixed bug when unable to set some driver parameters while the driver service is pending delete
+
+ Version 3.0.3.289/1.2.6000.386/1.2.6000.77
+
+ - Warning about signed drivers is no longer shown on 64bit pre-Vista systems
+ - Added new IRP flag names
+
+ Version 3.0.3.280/1.2.6000.386/1.2.6000.77
+
+ - "Start FileSpy as service" has been replaced by "Pre-logon run",
+   which works on Vista also
+ - FSpy.sys driver options has been simplified.
+ - MSpy.sys driver can now log requests since OS boot
+ - Driver options for FSpy.sys and MSpy.sys are now similar to each other
+   and thus easily to use
+
+ Version 3.0.2.280/1.2.6000.386/1.2.6000.76
+
+ - Fixed visual issue with fading windows
+ - Status notify dialog has been changed to baloon
+ - Fixed bug in "Exclude path" function
+ - Fixed problem with running FileSpy in Windows 200 Terminal Servives session
+ - Optimized loading and saving INI file
+ - Transaction operations can now be turned on when using FSpy driver
+ - Information about currently active filetrs is now more informational
+ - Fixed flickering of the listview in the main window
+ - Flickering in the process window on pre-Vista systems has been reduced
+ - FSpy driver is now able to log requests since OS boot
+ - Various smaller bug fixes
+
+ Version 3.0.1.240/1.2.6000.383/1.2.6000.75
+
+ - Fixed potential crash in handler of IRP_MJ_CREATE
+
+ Version 3.0.1.238/1.2.6000.382/1.2.6000.75
+
+ - Added possibility to highlight by request and FsContext
+ - FsContext and FsContext2 are now reported in create request
+ - Fixed bug when MSpy.sys didn't report the data from write requests
+
+ Version 3.0.1.232/1.2.6000.379/1.2.6000.71
+
+ - Added support for watching transactions with MSpy.
+ - Added menu item for auto-launching FileTest and watching it
+ - Added menu item for highlighting process and path in the log output
+ - "Edit/Clear display" now flushes all cached requests as well
+ - FSpy and Minispy have been updated with the changes in WDK 6000
+ - FSpy driver now logs loaded data in FASTIO_READ and FASTIO_WRITE
+ - Fixed several tooltip cosmetic problems
+ - Fixed functionalty in Windows 2000 due to missing StopTraceW
+ - Fixed bug in FSpy driver that caused data buffer for IRP_MJ_WRITE
+   to be displayed incorrectly or not at all
+ - Fixed bug that caused more info for FASTIO_QUERY_STANDARD_INFO
+   not to be displayed  
+
+
+ Version 3.0.0.220/1.2.5112.365/1.2.5112.65
+
+ - Adapted to some changes in latest Vista release
+ - Fixed wrong log records ordering occured when clearing log window
+   while higher file system activity in progress
+
+
+ Version 3.0.0.210/1.2.5112.365/1.2.5112.65
+
+ - Support for FileTrace (builtin minifilter in Vista)
+ - Added filter by NTSTATUS
+ - Added menu item for reset all filters
+ - Manual attach dialog remembers the recently used items
+ - User can reset the items in manual attach dialog
+ - Removed last listview column resize when resizing window
+ - All three loggers have been optimized, now can handle higher traffic
+ - Process column now shows full pathname too
+ - Various lesser optimizations and improvements
+
+
+ Version 2.1.0.191/1.2.5112.357/1.2.5112.52
+
+ - Optimized process filter class
+ - Process filter dialog is now sortable
+ - In Vista (64-bit), checks for NOINTEGRITYCHECKS and asks
+   user to enable it when not detected
+ - Drivers are test signed
+ 
+
+ Version 2.1.0.190/1.2.5112.317/1.2.5112.39
+
+ - Added new command line flag "/psoff"
+ - Possibility to read command line from "FileSpy.cmd" file
+
+
+ Version 2.1.0.183/1.2.5112.317/1.2.5112.39
+
+ - Ability to run as service and on Winlogon desktop
+ - Enabling/disabling manual system crash has been moved into one dialog
+
+ Version 2.1.0.180/1.2.5112.298/1.2.5112.25
+
+ - When FASTIO_DETACH_DEVICE arrives, FileSpy correctly updates the UI
+ - Fixed Windows XP look
+ - FileSpy now logs limited amount of data being read and written
+
+ Version 2.0.0.163/1.2.5112.296/1.2.5112.21
+
+ - Info about TopLevelIrp has been improved
+
+ Version 2.0.0.162/1.2.5112.296/1.2.5112.21
+
+ - Added possibility to use MSpy.sys as kernel filter
+ - FASTIO_QUERY_OPEN does not show create result
+ - Added dialog showing loaded minifilters
+ - Fixed name length limit in MSpy driver
+
+ Version 1.3.0.137/1.7777.0.258
+
+ - Incorporated changes in the new WDK
+ - Support for logging SectionObjectPointer from FileObject
+ - Better support for names detection
+ - Removed nasty NT names from "Volumes" menu
+
+ Version 1.2.0.137/1.6666.0.250
+
+ - Ctrl+P opens Process Filter
+ - Open/Create result is shown only if STATUS_SUCCESS
+ - Support for "Find" and "Find next"
+
+ Version 1.1.0.130/1.6666.0.250
+
+ - Added "Manual system crash" function
+ - Support for AMD64
+
+ Version 1.0.0.127/1.6666.0.240
+
+ - Fixed a bug related to FASTIO_QUERY_OPEN with stack-based
+   file objects
+
+ Version 1.0.0.126/1.6666.0.238
+
+ - Added IOCTLs for CD-ROM drives
+
+
+ Version 1.0.0.125/1.6666.0.238
+
+ - Added "Copy" and "Delete" commands to the context menu
+ - Added some IOCTLs for SCSI
+ - When saving the log to a file, the file has "txt" extension
+   if not specified.
+ - Changed the image path of FSpy service registry entry to
+   alias path (System32\Drivers\FSpy.sys) to be able to load at boot time
+ - Added more info for FileAllocationInformation  
+ - Improved the "Delete" action on multiple listview items
+ - Fixed crash occured sometimes when tooltip has been retrieved
+ - Purify test
+
+
+ Version 1.0.0.103/1.6666.0.237
+
+ - If the "FSpy" service is configured to start manually,
+   FileSpy will remove the registry entry and the driver file
+   so it will not stay in the Drivers directory
+ - The list view does not show FCB header is FCB is NULL
+ - The IRP/FastIo filter" dialog is centered to the screen, not to the parent
+   window
+ - FASTIO_QUERY_OPEN operation shows file name instead of
+   "Error 0xC000000D looking name"
+
+ Version 1.0.0.93/1.6666.0.227
+
+ - When a Fast I/O fails, FileSpy doesn't show "More Info"
+ - On IRP_MN_QUERY_DIRECTORY, the search mask no longer cuts the last
+   character.
+
+ Version 1.0.0.90/1.6666.0.225
+
+ - Added "Default" button to the "Columns" dialog
+ - The last column of the listview is now automatically sized when
+   the window is created
+
+ Version 1.0.0.87/1.6666.0.224
+
+ - Fixed height of drop down list in the "Attach manually" dialog
+ - Added "\Device\NetwareRedirector" to the "Attach manually" dialog
+ - "Process filter" and "FileSpy statistics" are now tool windows
+ - Listview in the "Process filter" dialog has "No sort header" style
+ - When the main window gets focus, the listview will get focus too.
+ - FSpy's control device's security descriptor has now null DACL,
+   so it can be open by the normal users.
+ - FileSpy now uses the "Application Data" folder for the INI file.
+   (FileSpy's settings are user-specific)
+ - FileSpy can now be executed even by normal authenticated users,
+   if the driver runs at the GUI's execution time.
+ - Removed some issues with 64-bit pointer size
+
+ Version 1.0.0.83/1.6666.0.219
+ 
+ - Released
+
