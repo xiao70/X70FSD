@@ -194,24 +194,6 @@ NTSTATUS X70FsdOverWriteFile(
 							   LARGE_INTEGER AllocationSize
 							   );
 
-NTSTATUS OpenFileAndFcb(__inout PFLT_CALLBACK_DATA Data,
-						  __in PCFLT_RELATED_OBJECTS FltObjects,
-						  __in PUNICODE_STRING FileName,
-						  __in PLARGE_INTEGER FileAllocationSize,
-						  __in PLARGE_INTEGER FileSize,
-						  __in PUCHAR HashValue,
-						  __in PACCESS_MASK DesiredAccess,
-						  __in PULONG	ShareAccess);
-
-NTSTATUS CreateFileAndFcb(__inout PFLT_CALLBACK_DATA Data,
-						  __in PCFLT_RELATED_OBJECTS FltObjects,
-						  __in PUNICODE_STRING FileName,
-						  __in PLARGE_INTEGER FileAllocationSize,
-						  __in PLARGE_INTEGER FileSize,
-						  __in PUCHAR HashValue,
-						  __in PACCESS_MASK DesiredAccess,
-						  __in PULONG	ShareAccess);
-
 NTSTATUS CreateFcbAndCcb(__inout PFLT_CALLBACK_DATA Data,
 						  __in PCFLT_RELATED_OBJECTS FltObjects,
 						  __in PIRP_CONTEXT IrpContext,
@@ -266,22 +248,10 @@ NTSTATUS TransformFileToEncrypted(PFLT_CALLBACK_DATA Data,PCFLT_RELATED_OBJECTS 
 
 NTSTATUS TransformFileToDisEncrypt( PFLT_CALLBACK_DATA Data,PCFLT_RELATED_OBJECTS FltObjects,PFCB Fcb,PCCB Ccb);
 
-NTSTATUS GetCurrentProcessFullPath(PEPROCESS pEprocess,PUNICODE_STRING ProcessFullPath);
-
-NTSTATUS
-GetCurrentProcessFullName(PEPROCESS Eprocess,PUNICODE_STRING ProcessFullPath);
-
 NTSTATUS ExtendingSetFile(PCFLT_RELATED_OBJECTS FltObjects,PFCB Fcb,PCCB Ccb);
 
 VOID UnloadDriver();
 
-BOOLEAN IsLicenseProcess(HANDLE ProId,PEPROCESS Eprocess,PULONG ProType,PBOOLEAN pbParentProcessLicense,PUCHAR ProcessGuid);
-
-BOOLEAN RemoveTrustProcess(PPROCESS_HASH pProcHash);
-
-BOOLEAN InsertTrustProcess(PPROCESS_HASH pProcHash);
-
-BOOLEAN FreeTrustProcess();
 
 BOOLEAN
 X70FsdIsIrpTopLevel (
@@ -291,8 +261,6 @@ X70FsdIsIrpTopLevel (
 NTSTATUS ExtendingValidDataSetFile(PCFLT_RELATED_OBJECTS FltObjects,PFCB Fcb,PCCB Ccb);
 
 BOOLEAN InSameVACB(IN ULONGLONG LowAddress, IN ULONGLONG HighAddress);
-
-BOOLEAN OS_VISTA_LATER();
 
 VOID NetFileSetCacheProperty(PFILE_OBJECT FileObject,ACCESS_MASK DesiredAccess);
 
