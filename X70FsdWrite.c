@@ -55,7 +55,7 @@ PtPreOperationWrite (
 	if(FLT_IS_IRP_OPERATION(Data)) //irp Write
 	{
 
-		//´´½¨irpÉÏÏÂÎÄ
+		//åˆ›å»ºirpä¸Šä¸‹æ–‡
 		try
 		{
 			TopLevel = X70FsdIsIrpTopLevel( Data );
@@ -74,7 +74,7 @@ PtPreOperationWrite (
 				IoSetTopLevelIrp((PIRP)Data );
 			}
 
-			if (FlagOn( Data->Iopb->MinorFunction, IRP_MN_COMPLETE )) //ÉÏ²ãÓÃÀ´ FreeMdlÇëÇóµÄ
+			if (FlagOn( Data->Iopb->MinorFunction, IRP_MN_COMPLETE )) //ä¸Šå±‚ç”¨æ¥ FreeMdlè¯·æ±‚çš„
 			{
 				FltStatus = X70FsdCompleteMdl(Data, FltObjects,IrpContext);
 			}
@@ -91,7 +91,7 @@ PtPreOperationWrite (
 			FltStatus = FLT_PREOP_COMPLETE;
 		}
 
-		// »Ö¸´Top-Level IRP
+		// æ¢å¤Top-Level IRP
 		if (ModWriter) { IoSetTopLevelIrp((PIRP)FSRTL_MOD_WRITE_TOP_LEVEL_IRP); }
 
 		if (TopLevel) { IoSetTopLevelIrp( NULL ); }
@@ -273,7 +273,7 @@ X70FsdCommonWrite(
 		return FLT_PREOP_COMPLETE;
 	}
 
-	//Èç¹ûÒ»¸ö·Ç¼ÓÃÜÎÄ¼şÊÕµ½ÁËĞ´ÇëÇó×ª±äËû³ÉÎª¼ÓÃÜÎÄ¼ş
+	//å¦‚æœä¸€ä¸ªéåŠ å¯†æ–‡ä»¶æ”¶åˆ°äº†å†™è¯·æ±‚è½¬å˜ä»–æˆä¸ºåŠ å¯†æ–‡ä»¶
 	if(!PagingIo && !Fcb->IsEnFile && BooleanFlagOn(Fcb->FileType,FILE_ACCESS_WRITE_CHANGE_TO_ENCRYPTION))
 	{	
 
@@ -288,11 +288,11 @@ X70FsdCommonWrite(
 	}
 
 	//
-	// ´¦ÀíÑÓ³ÙĞ´ÇëÇó
+	// å¤„ç†å»¶è¿Ÿå†™è¯·æ±‚
 	//
 
 	if (!PagingIo &&
-		(!NonCachedIo) && //·Ç»º´æ¸úpagingio ¾ù²»Ö§³ÖÑÓ³ÙĞ´Èë
+		(!NonCachedIo) && //éç¼“å­˜è·Ÿpagingio å‡ä¸æ”¯æŒå»¶è¿Ÿå†™å…¥
 		!CcCanIWrite(FileObject,
 		(ULONG)ByteCount,
 		(BOOLEAN)(FlagOn(IrpContext->Flags, IRP_CONTEXT_FLAG_WAIT) &&
@@ -300,9 +300,9 @@ X70FsdCommonWrite(
 		BooleanFlagOn(IrpContext->Flags, IRP_CONTEXT_DEFERRED_WRITE)))  //
 	{ 
 
-		BOOLEAN Retrying = BooleanFlagOn(IrpContext->Flags, IRP_CONTEXT_DEFERRED_WRITE); //ÑÓ³ÙĞ´
+		BOOLEAN Retrying = BooleanFlagOn(IrpContext->Flags, IRP_CONTEXT_DEFERRED_WRITE); //å»¶è¿Ÿå†™
 
-		X70FsdPrePostIrp(Data, IrpContext); //Ëø¶¨ÓÃ»§ÄÚ´æµÈ²Ù×÷ÎªÑÓ³Ù²Ù×÷×ö×¼±¸
+		X70FsdPrePostIrp(Data, IrpContext); //é”å®šç”¨æˆ·å†…å­˜ç­‰æ“ä½œä¸ºå»¶è¿Ÿæ“ä½œåšå‡†å¤‡
 
 		SetFlag( IrpContext->Flags, IRP_CONTEXT_DEFERRED_WRITE );
 
@@ -311,7 +311,7 @@ X70FsdCommonWrite(
 			Data,
 			IrpContext,
 			(ULONG)ByteCount,
-			Retrying ); //ÑÓ³ÙĞ´ÇëÇó
+			Retrying ); //å»¶è¿Ÿå†™è¯·æ±‚
 
 		return FLT_PREOP_PENDING;
 	}
@@ -376,8 +376,8 @@ X70FsdCommonWrite(
 
 	try {
 
-		//·Ç»º´æµÄioĞèÒªË¢ĞÂÏÂ»º´æ£¬ÈÃ»º´æÄÚÈİÏÈĞ´µ½´ÅÅÌÉÏ
-		if ((NonCachedIo || FlagOn(Ccb->CcbState,CCB_FLAG_NETWORK_FILE)) && //Èç¹ûÊÇ·Ç»º´æ»òÕßÊÇÍøÂçÎÄ¼şµÄĞ´ÒªË¢ÏÂ»º´æ
+		//éç¼“å­˜çš„ioéœ€è¦åˆ·æ–°ä¸‹ç¼“å­˜ï¼Œè®©ç¼“å­˜å†…å®¹å…ˆå†™åˆ°ç£ç›˜ä¸Š
+		if ((NonCachedIo || FlagOn(Ccb->CcbState,CCB_FLAG_NETWORK_FILE)) && //å¦‚æœæ˜¯éç¼“å­˜æˆ–è€…æ˜¯ç½‘ç»œæ–‡ä»¶çš„å†™è¦åˆ·ä¸‹ç¼“å­˜
 			!PagingIo &&
 			(FileObject->SectionObjectPointer->DataSectionObject != NULL))
 		{
@@ -389,12 +389,12 @@ X70FsdCommonWrite(
 			ScbAcquired = TRUE;
 			FcbAcquiredExclusive = TRUE;
 
-			ExAcquireSharedStarveExclusive( Header->PagingIoResource, TRUE ); //¼¢¶öµÄÈ¡µÃpagingio×ÊÔ´
+			ExAcquireSharedStarveExclusive( Header->PagingIoResource, TRUE ); //é¥¥é¥¿çš„å–å¾—pagingioèµ„æº
 
 			CcFlushCache( FileObject->SectionObjectPointer,
 				WriteToEof ? &Header->FileSize : (PLARGE_INTEGER)&StartingByte,
 				(ULONG)ByteCount,
-				&Data->IoStatus ); //Ë¢ĞÂ»º´æ
+				&Data->IoStatus ); //åˆ·æ–°ç¼“å­˜
 
 			ExReleaseResourceLite( Fcb->Header.PagingIoResource );
 
@@ -410,13 +410,13 @@ X70FsdCommonWrite(
 				FileObject->SectionObjectPointer,
 				WriteToEof ? &Header->FileSize : (PLARGE_INTEGER)&StartingByte,
 				(ULONG)ByteCount,
-				FALSE ); //ÇåÀí»º´æ
+				FALSE ); //æ¸…ç†ç¼“å­˜
 
-			//¸Ä±ä¶ÀÕ¼×ÊÔ´±ä³É¹²Ïí×ÊÔ´
+			//æ”¹å˜ç‹¬å èµ„æºå˜æˆå…±äº«èµ„æº
 			FcbCanDemoteToShared = TRUE;
 		}
 
-		if (PagingIo) //È¡µÃÏà¹Ø×ÊÔ´È»ºóĞ£ÑéĞ´²Ù×÷ÇëÇó
+		if (PagingIo) //å–å¾—ç›¸å…³èµ„æºç„¶åæ ¡éªŒå†™æ“ä½œè¯·æ±‚
 		{
 
 			(VOID)ExAcquireResourceSharedLite( Fcb->Header.PagingIoResource, TRUE );
@@ -489,19 +489,19 @@ X70FsdCommonWrite(
 		}
 
 		if ((Fcb->LazyWriteThread[0]  == PsGetCurrentThread()) ||
-			(Fcb->LazyWriteThread[1]  == PsGetCurrentThread()))  //±íÊ¾ÕâÊÇÒ»¸öÑÓ³ÙĞ´
+			(Fcb->LazyWriteThread[1]  == PsGetCurrentThread()))  //è¡¨ç¤ºè¿™æ˜¯ä¸€ä¸ªå»¶è¿Ÿå†™
 		{
 
-			CalledByLazyWriter = TRUE; //µ±Ç°ÊÇÒ»¸öÑÓ³ÙµÄĞ´ÇëÇóµÄ»° ÊÇ²»ÄÜÀ©Õ¹ÎÄ¼ş´óĞ¡µÄ
+			CalledByLazyWriter = TRUE; //å½“å‰æ˜¯ä¸€ä¸ªå»¶è¿Ÿçš„å†™è¯·æ±‚çš„è¯ æ˜¯ä¸èƒ½æ‰©å±•æ–‡ä»¶å¤§å°çš„
 
-			if (FlagOn( Fcb->Header.Flags, FSRTL_FLAG_USER_MAPPED_FILE ))  //Èç¹ûÊÇÎÄ¼şÓ³Éä
+			if (FlagOn( Fcb->Header.Flags, FSRTL_FLAG_USER_MAPPED_FILE ))  //å¦‚æœæ˜¯æ–‡ä»¶æ˜ å°„
 			{
 
 				if ((StartingByte.QuadPart + ByteCount > ValidDataLength.QuadPart) &&
 					(StartingByte.QuadPart < FileSize.QuadPart)) 
 				{
 
-					if (StartingByte.QuadPart + ByteCount > ((ValidDataLength.QuadPart + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1))) //±£Ö¤Õâ´ÎË¢ĞÂµÄÒ³°üº¬ÓĞĞ§Êı¾İ
+					if (StartingByte.QuadPart + ByteCount > ((ValidDataLength.QuadPart + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1))) //ä¿è¯è¿™æ¬¡åˆ·æ–°çš„é¡µåŒ…å«æœ‰æ•ˆæ•°æ®
 					{
 						try_return( Status = STATUS_FILE_LOCK_CONFLICT );
 					}
@@ -512,7 +512,7 @@ X70FsdCommonWrite(
 		if (FlagOn(Iopb->IrpFlags , IRP_SYNCHRONOUS_PAGING_IO) &&
 			FlagOn(IrpContext->Flags, IRP_CONTEXT_FLAG_RECURSIVE_CALL)) 
 		{
-			//Èç¹û¶¥²ã²Ù×÷Ò²ÊÇĞ´¾ÍÖ±½ÓĞ´Èë
+			//å¦‚æœé¡¶å±‚æ“ä½œä¹Ÿæ˜¯å†™å°±ç›´æ¥å†™å…¥
 			PFLT_CALLBACK_DATA TopLevelData;
 
 			TopLevelData = (PFLT_CALLBACK_DATA) IoGetTopLevelIrp();
@@ -534,10 +534,10 @@ X70FsdCommonWrite(
 		if ( !CalledByLazyWriter &&
 			!RecursiveWriteThrough &&
 			(WriteToEof ||
-			StartingByte.QuadPart + ByteCount > ValidDataLength.QuadPart)) //ĞèÒª×ª±ä³ÉÎªÍ¬²½²Ù×÷
+			StartingByte.QuadPart + ByteCount > ValidDataLength.QuadPart)) //éœ€è¦è½¬å˜æˆä¸ºåŒæ­¥æ“ä½œ
 		{
 
-			if (!Wait)  //Òì²½µÄÉèÖÃ³ÉÍ¬²½
+			if (!Wait)  //å¼‚æ­¥çš„è®¾ç½®æˆåŒæ­¥
 			{
 
 				Wait = TRUE;
@@ -545,10 +545,10 @@ X70FsdCommonWrite(
 
 				if (NonCachedIo) 
 				{
-					SwitchBackToAsync = TRUE; //·ÇÍ¬²½µÄ×ª±ä³ÉÎªÍ¬²½µÄ¡£
+					SwitchBackToAsync = TRUE; //éåŒæ­¥çš„è½¬å˜æˆä¸ºåŒæ­¥çš„ã€‚
 				}
 			}
-			//Èç¹ûÀ©Õ¹µÄÎÄ¼şÎÒÃÇ¾ÍÒª¶ÀÕ¼×ÊÔ´ÁË
+			//å¦‚æœæ‰©å±•çš„æ–‡ä»¶æˆ‘ä»¬å°±è¦ç‹¬å èµ„æºäº†
 			if ( PagingIo ) 
 			{
 
@@ -574,10 +574,10 @@ X70FsdCommonWrite(
 				}
 			}
 
-			if (SwitchBackToAsync) //¼ì²éÊÇ·ñÒª×ª»»»ØÒì²½£¬ÎÒÃÇÒªfcbÖ÷×ÊÔ´ÊÍ·ÅÇ°¸üĞÂÓĞĞ§´óĞ¡
+			if (SwitchBackToAsync) //æ£€æŸ¥æ˜¯å¦è¦è½¬æ¢å›å¼‚æ­¥ï¼Œæˆ‘ä»¬è¦fcbä¸»èµ„æºé‡Šæ”¾å‰æ›´æ–°æœ‰æ•ˆå¤§å°
 			{
 
-				if ((Fcb->SectionObjectPointers.DataSectionObject != NULL) ||		//Èç¹ûÕâÀïÊÇÓĞÊı¾İÊÓÍ¼ĞèÒª±£³ÖÍ¬²½
+				if ((Fcb->SectionObjectPointers.DataSectionObject != NULL) ||		//å¦‚æœè¿™é‡Œæ˜¯æœ‰æ•°æ®è§†å›¾éœ€è¦ä¿æŒåŒæ­¥
 					(StartingByte.QuadPart + ByteCount > Fcb->Header.ValidDataLength.QuadPart))
 				{
 
@@ -608,7 +608,7 @@ X70FsdCommonWrite(
 
 					if (ExInterlockedAddUlong( &Fcb->OutstandingAsyncWrites,
 						1,
-						&GeneralSpinLock ) == 0)  //ÊÂ¼şÓÃÀ´Í¬²½Òì²½µÄÀ©Õ¹ÓĞĞ§³¤¶ÈµÄ·Ç»º´æĞ´
+						&GeneralSpinLock ) == 0)  //äº‹ä»¶ç”¨æ¥åŒæ­¥å¼‚æ­¥çš„æ‰©å±•æœ‰æ•ˆé•¿åº¦çš„éç¼“å­˜å†™
 					{
 
 						KeClearEvent( Fcb->OutstandingAsyncEvent );
@@ -620,7 +620,7 @@ X70FsdCommonWrite(
 					IrpContext->X70FsdIoContext->Wait.Async.OutstandingAsyncWrites = &Fcb->OutstandingAsyncWrites;
 				}
 			}
-			//µ÷Õû×ÊÔ´ºóÖØĞÂÈ¡µÃÎÄ¼ş´óĞ¡ĞÅÏ¢
+			//è°ƒæ•´èµ„æºåé‡æ–°å–å¾—æ–‡ä»¶å¤§å°ä¿¡æ¯
 			ValidDataLength.QuadPart = Fcb->Header.ValidDataLength.QuadPart;
 			FileSize.QuadPart = Fcb->Header.FileSize.QuadPart;
 
@@ -731,7 +731,7 @@ X70FsdCommonWrite(
 			ExtendingFile = TRUE;
 		}
 
-		if ( ExtendingFile ) //À©Õ¹ÁËÎÄ¼ş´óĞ¡
+		if ( ExtendingFile ) //æ‰©å±•äº†æ–‡ä»¶å¤§å°
 		{
 			FileSize.QuadPart = StartingByte.QuadPart + ByteCount;
 
@@ -743,15 +743,15 @@ X70FsdCommonWrite(
 			if ( FileSize.QuadPart > Fcb->Header.AllocationSize.QuadPart ) 
 			{
 
-				ULONG ClusterSize = volCtx->SectorSize * volCtx->SectorsPerAllocationUnit; //´Ø´óĞ¡
+				ULONG ClusterSize = volCtx->SectorSize * volCtx->SectorsPerAllocationUnit; //ç°‡å¤§å°
 
 				LARGE_INTEGER TempLI;
 
-				TempLI.QuadPart = FileSize.QuadPart;//Õ¼ÓÃ´óĞ¡
+				TempLI.QuadPart = FileSize.QuadPart;//å ç”¨å¤§å°
 				TempLI.QuadPart += ClusterSize;
 				TempLI.HighPart += (ULONG)( (LONGLONG)ClusterSize >> 32 );
 
-				if ( TempLI.LowPart == 0 ) //²»ĞèÒª½øÎ» 
+				if ( TempLI.LowPart == 0 ) //ä¸éœ€è¦è¿›ä½ 
 				{
 					TempLI.HighPart -= 1;
 				}
@@ -809,7 +809,7 @@ X70FsdCommonWrite(
 
 				SystemBuffer = X70FsdMapUserBuffer(Data);
 
-				//ĞŞÕı´óĞ¡±ä³ÉÉÈÇøÕûÊı±¶
+				//ä¿®æ­£å¤§å°å˜æˆæ‰‡åŒºæ•´æ•°å€
 
 				//WriteLen = (ULONG)ROUND_TO_SIZE(WriteLen,CRYPT_UNIT); error
 
@@ -824,7 +824,7 @@ X70FsdCommonWrite(
 					try_return( Status = STATUS_NOT_IMPLEMENTED );
 				}
 
-				//Çå0Êı¾İ
+				//æ¸…0æ•°æ®
 				if (!CalledByLazyWriter &&
 					!RecursiveWriteThrough &&
 					(StartingByte.QuadPart > ValidDataLength.QuadPart)) 
@@ -843,12 +843,12 @@ X70FsdCommonWrite(
 
 				if (SwitchBackToAsync) 
 				{
-					//ÒÀÈ»ÊÇÒ»¸öÒì²½²Ù×÷£¬ÕâÑù¿Ï¶¨ÄÜÒì²½Íê³ÉÀı³ÌÀïÃæÍê³ÉÊÂ¼ş
+					//ä¾ç„¶æ˜¯ä¸€ä¸ªå¼‚æ­¥æ“ä½œï¼Œè¿™æ ·è‚¯å®šèƒ½å¼‚æ­¥å®Œæˆä¾‹ç¨‹é‡Œé¢å®Œæˆäº‹ä»¶
 					Wait = FALSE;
 					ClearFlag( IrpContext->Flags, IRP_CONTEXT_FLAG_WAIT );
 				}
 
-				//ÀûÓÃÎÒÃÇµÄÔ­Ê¼ÎÄ¼ş¶ÔÏó¶ÔÊı¾İ½øĞĞ¶ÁÈ¡£¬È»ºó¸´ÖÆµ½ĞèÒªµÄÊı¾İÇøÀïÃæ
+				//åˆ©ç”¨æˆ‘ä»¬çš„åŸå§‹æ–‡ä»¶å¯¹è±¡å¯¹æ•°æ®è¿›è¡Œè¯»å–ï¼Œç„¶åå¤åˆ¶åˆ°éœ€è¦çš„æ•°æ®åŒºé‡Œé¢
 				newBuf = FltAllocatePoolAlignedWithTag(FltObjects->Instance,NonPagedPool,WriteLen,'wn');
 
 				if(newBuf == NULL)
@@ -924,7 +924,7 @@ X70FsdCommonWrite(
 					newBuf = NULL;
 				}
 
-				if(newMdl != NULL)//ÊÍ·ÅÄÚ´æ
+				if(newMdl != NULL)//é‡Šæ”¾å†…å­˜
 				{
 					IoFreeMdl(newMdl);
 				}
@@ -991,7 +991,7 @@ X70FsdCommonWrite(
 
 			}
 
-			//Èç¹ûĞ´ÈëµÄÊ±ºò´óĞ¡³¬¹ıÁËÓĞĞ§Êı¾İ·¶Î§ÎÒÃÇĞèÒªÇå0
+			//å¦‚æœå†™å…¥çš„æ—¶å€™å¤§å°è¶…è¿‡äº†æœ‰æ•ˆæ•°æ®èŒƒå›´æˆ‘ä»¬éœ€è¦æ¸…0
 			LlTemp1 = StartingByte.QuadPart - ValidDataLength.QuadPart;
 
 			if ( LlTemp1 > 0 )
@@ -1017,7 +1017,7 @@ X70FsdCommonWrite(
 				Fcb->CacheType = CACHE_DISABLE;
 			}
 
-			if(Fcb->CacheType == CACHE_READWRITE) //¿ÉÒÔÓÃ»º´æ
+			if(Fcb->CacheType == CACHE_READWRITE) //å¯ä»¥ç”¨ç¼“å­˜
 			{
 				if (!FlagOn(IrpContext->MinorFunction, IRP_MN_MDL)) 
 				{
@@ -1059,7 +1059,7 @@ X70FsdCommonWrite(
 					try_return( Status );
 				}
 			}
-			else //°´ÕÕ16×Ö½Ú¶ÔÆëÀ´Ğ´,Ğ´Ö®Ç°ÏÈ¶ÁÒ»ÏÂÎÄ¼şÄÚµÄÄÚÈİ
+			else //æŒ‰ç…§16å­—èŠ‚å¯¹é½æ¥å†™,å†™ä¹‹å‰å…ˆè¯»ä¸€ä¸‹æ–‡ä»¶å†…çš„å†…å®¹
 			{
 				LARGE_INTEGER NewByteOffset;
 				ULONG WriteLen = ByteCount;	
@@ -1086,7 +1086,7 @@ X70FsdCommonWrite(
 					try_return(Status);
 				}
 
-				if(Fcb->IsEnFile) //¶ÔÆëÊı¾İ
+				if(Fcb->IsEnFile) //å¯¹é½æ•°æ®
 				{
 					LessenOffset = StartingByte.QuadPart % CRYPT_UNIT;
 					NewByteOffset.QuadPart = NewByteOffset.QuadPart - LessenOffset;
@@ -1103,7 +1103,7 @@ X70FsdCommonWrite(
 					}
 					RtlZeroMemory(newBuf,WriteLen);
 
-					//¶ÁÎÄ¼şÈ»ºó¿½±´
+					//è¯»æ–‡ä»¶ç„¶åæ‹·è´
 
 					{
 #ifdef CHANGE_TOP_IRP
@@ -1143,7 +1143,7 @@ X70FsdCommonWrite(
 
 					FltReuseCallbackData(RetNewCallbackData);
 				}
-				//ÏòÏÂ²ã·¢³ö¶ÔÓ¦µÄĞ´ÇëÇó
+				//å‘ä¸‹å±‚å‘å‡ºå¯¹åº”çš„å†™è¯·æ±‚
 				{
 #ifdef CHANGE_TOP_IRP
 
@@ -1218,7 +1218,7 @@ X70FsdCommonWrite(
 
 			}
 
-			//Èç¹ûĞ´ÈëµÄÊ±ºò´óĞ¡³¬¹ıÁËÓĞĞ§Êı¾İ·¶Î§ÎÒÃÇĞèÒªÇå0
+			//å¦‚æœå†™å…¥çš„æ—¶å€™å¤§å°è¶…è¿‡äº†æœ‰æ•ˆæ•°æ®èŒƒå›´æˆ‘ä»¬éœ€è¦æ¸…0
 			LlTemp1 = StartingByte.QuadPart - ValidDataLength.QuadPart;
 
 			if ( LlTemp1 > 0 )
@@ -1325,7 +1325,7 @@ try_exit:NOTHING;
 							Fcb->Header.ValidDataLength.QuadPart = EndingVboWritten.QuadPart;
 						}
 
-						if (NonCachedIo && CcIsFileCached(FileObject))  //¸üĞÂÏÂ»º´æÖĞµÄ¼ÇÂ¼
+						if (NonCachedIo && CcIsFileCached(FileObject))  //æ›´æ–°ä¸‹ç¼“å­˜ä¸­çš„è®°å½•
 						{
 							CcSetFileSizes( FileObject, (PCC_FILE_SIZES)&Fcb->Header.AllocationSize );
 						}
@@ -1570,7 +1570,7 @@ VOID WriteFileAsyncCompletionRoutine(
 }
 
 
-//ÕæÕıµÄĞ´ÎÄ¼ş
+//çœŸæ­£çš„å†™æ–‡ä»¶
 NTSTATUS RealWriteFile(
 				   IN PCFLT_RELATED_OBJECTS FltObjects,
 				   IN PIRP_CONTEXT IrpContext,
@@ -1624,8 +1624,6 @@ NTSTATUS RealWriteFile(
 			Status = RetNewCallbackData->IoStatus.Status;
 			*RetBytes = RetNewCallbackData->IoStatus.Information;
 
-
-			//Ö±½Ó½âÃÜÈ¡³öÀ´µÄÊı¾İ
 		}
 		else
 		{
