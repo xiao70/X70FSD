@@ -14,9 +14,7 @@ UCHAR FileBegin[FILEBEGIN] = "X70FSD";
 
 UCHAR Flag[OVERFLAG] = "Xiao70";
 
-int hash_sha256 = -1;
 int hash_idx = -1;
-int cipher_idx = -1;
 
 symmetric_key *headskey = NULL;
 
